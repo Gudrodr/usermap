@@ -25,23 +25,25 @@ class MapContainer extends React.Component {
       view: new View({
         center: [0, 0],
         zoom: 3
-      })
+      }),
     }
   }
 
   zoom(coordinates) {
     this.state.view.animate({
       center: fromLonLat(coordinates),
-      zoom: 10,
-      duration: 500
-    })
+      zoom: 8,
+      duration: 800
+    });
   }
 
   genMap() {
     let features = this.props.features;
 
+    // отсеиваем неформатные данные
     features = features.filter(item => item.hasOwnProperty('geometry'));
 
+    // приводим данные для отображения в виде точек
     let featuresData = features.map(item => {
       let user = new Feature({
         geometry: new Point(fromLonLat(item.geometry.coordinates))
@@ -66,7 +68,6 @@ class MapContainer extends React.Component {
     });
 
     const content = this.content.current;
-
     const overlay = new Overlay({
       element: this.popup.current,
       autoPan: true,
