@@ -9,39 +9,53 @@ import {Point} from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import {Circle as CircleStyle, Fill, Style} from 'ol/style';
-import {fromLonLat} from 'ol/proj';
+import {fromLonLat, toLonLat} from 'ol/proj';
 import Overlay from 'ol/Overlay';
+import {connect} from "react-redux";
 
-export default class MapContainer extends React.Component {
+class MapContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.popup = React.createRef();
     this.content = React.createRef();
     this.closer = React.createRef();
+
+    this.state = {
+      view: new View({
+        center: [0, 0],
+        zoom: 3
+      })
+    }
   }
 
-  componentDidMount() {
-    const features = this.props.features;
+  zoom(coordinates) {
+    this.state.view.animate({
+      center: fromLonLat(coordinates),
+      zoom: 10,
+      duration: 500
+    })
+  }
 
-    const featuresData = features.map(item => {
-      if (item.properties) {
-        let user = new Feature({
-          geometry: new Point(fromLonLat(item.geometry.coordinates))
-        });
-        user.setStyle(new Style({
-          image: new CircleStyle({
-            radius: 5,
-            fill: new Fill({color: item.properties.color})
-          })
-        }));
-        user.email = item.properties.email;
-        user.name = item.properties.userName;
-        return user;
-      }
+  genMap() {
+    let features = this.props.features;
+
+    features = features.filter(item => item.hasOwnProperty('geometry'));
+
+    let featuresData = features.map(item => {
+      let user = new Feature({
+        geometry: new Point(fromLonLat(item.geometry.coordinates))
+      });
+      user.setStyle(new Style({
+        image: new CircleStyle({
+          radius: 5,
+          fill: new Fill({color: item.properties.color})
+        })
+      }));
+      user.email = item.properties.email;
+      user.name = item.properties.userName;
+      return user;
     });
-
-    featuresData.splice(-1, 1);
 
     const vectorSource = new VectorSource({
       features: featuresData
@@ -60,6 +74,7 @@ export default class MapContainer extends React.Component {
         duration: 250
       }
     });
+
     this.closer.current.onclick = function() {
       overlay.setPosition(undefined);
       this.closer.current.blur();
@@ -77,10 +92,7 @@ export default class MapContainer extends React.Component {
       ],
       overlays: [overlay],
       target: 'map',
-      view: new View({
-        center: [0, 0],
-        zoom: 3
-      })
+      view: this.state.view
     });
 
     map.on('singleclick', function(evt) {
@@ -96,6 +108,16 @@ export default class MapContainer extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.genMap();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.coordinates !== prevProps.coordinates) {
+      this.zoom(this.props.coordinates);
+    }
+  }
+
   render() {
     return(
       <div id='map' className='map'>
@@ -107,3 +129,9 @@ export default class MapContainer extends React.Component {
     )
   }
 }
+
+export default connect(
+  state => ({
+    coordinates: state.coordinates
+  })
+)(MapContainer)

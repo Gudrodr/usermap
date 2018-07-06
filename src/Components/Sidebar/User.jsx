@@ -1,10 +1,11 @@
 import * as React from 'react';
+import {connect} from "react-redux";
 
-export default class User extends React.Component {
+class User extends React.Component {
 
   render() {
     return (
-      <div className='user'>
+      <div className='user' onClick={() => this.props.addEmail(this.props.user.geometry.coordinates)}>
         <div className='userAvatar' style={{backgroundColor: `${this.props.user.properties && this.props.user.properties.color}`}}>
           <img src={this.props.user.properties && this.props.user.properties.avatar} />
         </div>
@@ -16,3 +17,10 @@ export default class User extends React.Component {
     )
   }
 }
+
+export default connect(
+  state => ({}),
+  dispatch => ({
+    addEmail: (coordinates) => dispatch({type: 'ADD_COORDINATES', payload: {coordinates}})
+  })
+)(User)

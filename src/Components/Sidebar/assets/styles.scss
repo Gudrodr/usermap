@@ -6,14 +6,14 @@
   .user {
     display: flex;
     justify-content: space-between;
-    //cursor: pointer;
+    cursor: pointer;
 
     font-family: Arial;
 
     .userAvatar {
       display: flex;
       align-items: center;
-      width: 6em;
+      width: 4em;
       padding: 0.3em;
 
       img {
@@ -22,7 +22,7 @@
     }
 
     .userInfo {
-      width: 14em;
+      width: 16em;
       word-break: break-all;
       border-bottom: 1px solid gray;
       padding: 0.3em 0.4em;

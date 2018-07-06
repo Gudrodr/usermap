@@ -6,35 +6,27 @@ import 'normalize.css';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 
-const initialState = {userId: localStorage.getItem('userId'), shared: false, email: '', sent: localStorage.getItem('sent')};
+const initialState = {coordinates: [0, 0]};
 
-const middleware = ({getState}) => {
-  return next => action => {
-    if (action.type === 'ADD_ALL') {
-      if (action.payload.userId) {
-        localStorage.setItem('userId', action.payload.userId)
-      }
-    }
-    return next(action);
-  }
-};
+// const middleware = ({getState}) => {
+//   return next => action => {
+//     if (action.type === 'ADD_ALL') {
+//       if (action.payload.userId) {
+//         localStorage.setItem('userId', action.payload.userId)
+//       }
+//     }
+//     return next(action);
+//   }
+// };
 
 const userAction = (state = initialState, action) => {
-  if (action.type === 'ADD_ACTION') {
-    return Object.assign({}, state, {shared: true});
-  }
-  if (action.type === 'ADD_EMAIL') {
-    return Object.assign({}, state, {email: action.payload.email});
-  }
-  if (action.type === 'ADD_ALL') {
-    return Object.assign({}, state, action.payload)
-  }
-  if (action.type === 'ADD_SENT') {
-    return Object.assign({}, state, {sent: true})
+  if (action.type === 'ADD_COORDINATES') {
+    return Object.assign({}, state, {coordinates: action.payload.coordinates});
   }
   return state;
 };
 
-const store = createStore(userAction, initialState, applyMiddleware(middleware));
+// const store = createStore(userAction, initialState, applyMiddleware(middleware));
+const store = createStore(userAction, initialState);
 
 ReactDOM.render(<Provider store={store}><Page/></Provider>, document.getElementById('app'));
