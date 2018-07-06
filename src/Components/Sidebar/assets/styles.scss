@@ -1,0 +1,27 @@
+.sidebar {
+  min-height: 100vh;
+  max-width: 20em;
+  border-right: 1px solid gray;
+
+  .user {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+    padding: 0.2em;
+    cursor: pointer;
+
+    font-family: Arial;
+
+    .userAvatar {
+      width: 6em;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .userInfo {
+      word-wrap: break-word;
+    }
+  }
+}
