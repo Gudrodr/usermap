@@ -1,27 +1,32 @@
 .sidebar {
   min-height: 100vh;
   max-width: 20em;
-  border-right: 1px solid gray;
+  border-left: 1px solid gray;
 
   .user {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid gray;
-    padding: 0.2em;
-    cursor: pointer;
+    //cursor: pointer;
 
     font-family: Arial;
 
     .userAvatar {
+      display: flex;
+      align-items: center;
       width: 6em;
+      padding: 0.2em;
 
       img {
         width: 100%;
+        border-radius: 0.4em;
       }
     }
 
     .userInfo {
-      word-wrap: break-word;
+      width: 14em;
+      word-break: break-all;
+      padding: 0.2em 0.4em;
     }
   }
 }

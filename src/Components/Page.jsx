@@ -24,11 +24,10 @@ export default class Page extends React.Component {
   }
 
   render() {
-    // console.log(this.state.usersData)
     return (
       <div className='mainPage'>
-        {/*<Sidebar features={this.state.usersData} />*/}
         {this.state.usersData.length > 0 && <MapContainer features={this.state.usersData} />}
+        <Sidebar features={this.state.usersData} />
       </div>
     )
   }

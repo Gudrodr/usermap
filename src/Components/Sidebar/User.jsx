@@ -5,7 +5,7 @@ export default class User extends React.Component {
   render() {
     return (
       <div className='user'>
-        <div className='userAvatar'>
+        <div className='userAvatar' style={{backgroundColor: `${this.props.user.properties && this.props.user.properties.color}`}}>
           <img src={this.props.user.properties && this.props.user.properties.avatar} />
         </div>
         <div className='userInfo'>
