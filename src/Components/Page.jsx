@@ -16,7 +16,6 @@ export default class Page extends React.Component {
     fetch('http://localhost:3000/features')
       .then(response => response.json())
       .then(data => this.setState({usersData: data.features}))
-      // .then(() => console.log(this.state.usersData))
   }
 
   componentDidMount() {
