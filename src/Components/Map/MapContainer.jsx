@@ -67,6 +67,7 @@ class MapContainer extends React.Component {
       source: vectorSource
     });
 
+    // создаём оверлей для попапа
     const content = this.content.current;
     const overlay = new Overlay({
       element: this.popup.current,
@@ -82,6 +83,7 @@ class MapContainer extends React.Component {
       return false;
     };
 
+    // создаём карту
     const map = new Map({
       layers: [
         new TileLayer({
@@ -96,6 +98,7 @@ class MapContainer extends React.Component {
       view: this.state.view
     });
 
+    // отображение попапа при клике на точку
     map.on('singleclick', function(evt) {
       const feature = map.forEachFeatureAtPixel(evt.pixel,
         function(feature) {
